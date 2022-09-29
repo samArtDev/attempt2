@@ -20,6 +20,16 @@ int8_t tempX;
 int8_t tempY;
 uint8_t centerTile = 2;
 
+void setCenterTile(){
+    uint8_t randomNumberIndex = rand();
+    randomNumberIndex = randomNumberIndex % 4;
+    set_bkg_tile_xy(centerX, centerY, randomNumberIndex);
+}
+
+void getCenterTile(){
+    
+}
+
 uint8_t rollRNG(uint8_t centerTile, uint8_t tempX, uint8_t tempY){
     uint8_t randomNumberIndex = rand();
     randomNumberIndex = randomNumberIndex % 4;
