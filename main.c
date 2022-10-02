@@ -19,111 +19,69 @@ int8_t centerY = 9;
 int8_t tempX;
 int8_t tempY;
 uint8_t centerTile = 2;
+uint8_t tempArray[];
 
-void setCenterTile(){
+void rollRNG(){
     uint8_t randomNumberIndex = rand();
     randomNumberIndex = randomNumberIndex % 4;
-    set_bkg_tile_xy(centerX, centerY, randomNumberIndex);
+    validateRand(randomNumberIndex);
 }
 
-void getCenterTile(){
-    
-}
+void validateRand(uint8_t RNGval){
+    if(RNGval == 0){
+        tempArray[4] = blankTruthTable[4];
+    }
+    if(RNGval == 1){
+        tempArray[4] = upTruthTable[4];
+    }
+    if(RNGval == 2){
+        tempArray[4] = rightTruthTable[4];
+    }
+    if(RNGval == 3){
+        tempArray[4] = downTruthTable[4];
+    }
+    if(RNGval == 4){
+        tempArray[4] = leftTruthTable[4];
+    }
 
-uint8_t rollRNG(uint8_t centerTile, uint8_t tempX, uint8_t tempY){
-    uint8_t randomNumberIndex = rand();
-    randomNumberIndex = randomNumberIndex % 4;
-
-    for(uint8_t i = 0; i < 3; i++){
-        for (uint8_t j = 0; j < 3; j++)
-        {
-        if(centerTile[i] = )
+    for (uint8_t i = 0; i < 3; i++){
+        if (tempArray[RNGval] != centerTile[RNGval]){
+            if(i == 0){
+                tempX = centerX;
+                tempY = centerY - 1;
+                set_bkg_tile_xy(centerX, centerY, 0);
+            }
+            if(i == 1){
+                tempX = centerX + 1;
+                tempY = centerY;
+                set_bkg_tile_xy(centerX, centerY, 1);
+            }
+            if(i == 2){
+                tempX = centerX;
+                tempY = centerY + 1;
+                set_bkg_tile_xy(centerX, centerY, 2);
+            }
+            if(i == 3){
+                tempX = centerX - 1;
+                tempY = centerY;
+                set_bkg_tile_xy(centerX, centerY, 3)
+            }
+        }
+        else{
+            rollRNG();
         }
         
     }
-
-    /*
-    printf("%hu", randomNumberIndex);
-    printf("%s", " ");
-    */
-   return randomNumberIndex;
-}
-
-void northTile(){
-    tempX = centerX;
-    tempY = centerY - 1;
-}
-
-void eastTile(){
-    tempX = centerX + 1;
-    tempY = centerY;
-}
-
-void southTile(){
-    tempX = centerX;
-    tempY = centerY + 1;
-}
-
-void westTile(){
-    tempX = centerX - 1;
-    tempY = centerY;
-}
-
-void wtf_is_entropy(){
-
-
-    set_bkg_data(0, 5, TileLabel);
-    set_bkg_tile_xy(centerX, centerY, centerTile);
-
-/*
-    if(startingX <= 0){
-        //skip
-    }
-*/
-
-    if(get_bkg_tile_xy(centerX, centerY) == 0){
-        if(centerX > 0){
-            tempX = centerX - 1;
-            tempY = centerY;
-            uint8_t i = rollRNG();
-            if()
-        }
-
-        else{
-            tempX = centerX - 1;
-            tempY = centerY;
-            if(){
-
-            }
-            set_bkg_tile_xy(tempX, tempY, #);
-        }
-    }
-
-    if (rollRNG() == 0)
-    {
-
-
-    }
-
-    SHOW_BKG;
-    DISPLAY_ON;
+    
 }
 
 void main(){
+    set_bkg_data(0, 5, TileLabel);
+    set_bkg_tile_xy(centerX, centerY, 2);
     while(1){
-        wtf_is_entropy();
+        validateRand();
         delay(1000);
     }
-/*
-    set_bkg_data(0, 5, TileLabel);
-    set_bkg_tiles(0, 0, 20, 18, tilebkrmaplabel);
-
-    for(int8_t y = 0; y<9; y++){
-        for(int8_t x = 0; x<20; x++){
-            set_bkg_tile_xy(x, y, 0);
-        }
-    }
     SHOW_BKG;
-    DISPLAY_ON;    
-*/
+    DISPLAY_ON;
 }
