@@ -18,70 +18,87 @@ int8_t centerX = 10;
 int8_t centerY = 9;
 int8_t tempX;
 int8_t tempY;
-uint8_t centerTile = 2;
-uint8_t tempArray[];
+uint8_t centerTile[4];
+uint8_t tempArray[4];
 
-void rollRNG(){
+uint8_t rollRNG(){
     uint8_t randomNumberIndex = rand();
     randomNumberIndex = randomNumberIndex % 4;
-    validateRand(randomNumberIndex);
+    return(randomNumberIndex);
 }
 
-void validateRand(uint8_t RNGval){
-    if(RNGval == 0){
-        tempArray[4] = blankTruthTable[4];
-    }
-    if(RNGval == 1){
-        tempArray[4] = upTruthTable[4];
-    }
-    if(RNGval == 2){
-        tempArray[4] = rightTruthTable[4];
-    }
-    if(RNGval == 3){
-        tempArray[4] = downTruthTable[4];
-    }
-    if(RNGval == 4){
-        tempArray[4] = leftTruthTable[4];
-    }
+void setCenterTile(uint8_t centerX, uint8_t centerY, uint8_t centerTile){
+    set_bkg_tile_xy(centerX, centerY, centerTile);
+}
 
-    for (uint8_t i = 0; i < 3; i++){
-        if (tempArray[RNGval] != centerTile[RNGval]){
-            if(i == 0){
-                tempX = centerX;
-                tempY = centerY - 1;
-                set_bkg_tile_xy(centerX, centerY, 0);
-            }
-            if(i == 1){
-                tempX = centerX + 1;
-                tempY = centerY;
-                set_bkg_tile_xy(centerX, centerY, 1);
-            }
-            if(i == 2){
-                tempX = centerX;
-                tempY = centerY + 1;
-                set_bkg_tile_xy(centerX, centerY, 2);
-            }
-            if(i == 3){
-                tempX = centerX - 1;
-                tempY = centerY;
-                set_bkg_tile_xy(centerX, centerY, 3)
-            }
-        }
-        else{
-            rollRNG();
-        }
-        
+void isN_Good(){
+    tempX = centerX;
+    tempY = centerY - 1;
+    if (tempX < 0 | tempY < 0)
+    {
+        return false;
     }
     
+    if(get_bkg_tile_xy(tempX, tempY) == 0){
+        return true;
+    } 
+}
+
+void isE_Good(){
+    tempX = centerX - 1;
+    tempY = centerY;
+    if (tempX < 0 | tempY < 0)
+    {
+        return false;
+    }
+    
+    if(get_bkg_tile_xy(tempX, tempY) == 0){
+        return true;
+    } 
+}
+
+void isW_Good(){
+    tempX = centerX + 1;
+    tempY = centerY;
+    if (tempX < 0 | tempY < 0)
+    {
+        return false;
+    }
+    
+    if(get_bkg_tile_xy(tempX, tempY) == 0){
+        return true;
+    } 
+}
+
+void isS_Good(){
+    tempX = centerX;
+    tempY = centerY + 1;
+    if (tempX < 0 | tempY < 0)
+    {
+        return false;
+    }
+    
+    if(get_bkg_tile_xy(tempX, tempY) == 0){
+        return true;
+    } 
 }
 
 void main(){
     set_bkg_data(0, 5, TileLabel);
-    set_bkg_tile_xy(centerX, centerY, 2);
-    while(1){
-        validateRand();
-        delay(1000);
+    //set_bkg_tile_xy(centerX, centerY, 2);
+    setCenterTile(10, 9, rollRNG());
+    for (uint8_t i = 0; i < 10; i++)
+    {
+        setPosition(i, 0);
+        isN_Good();
+        isE_Good();
+        isW_Good();
+        isS_Good();
+
     }
+    
+    setN_E_W_S();
+    delay(1000);
     SHOW_BKG;
     DISPLAY_ON;
 }
