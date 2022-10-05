@@ -166,13 +166,12 @@ void isS_Good(){
 
 void main(){
     set_bkg_data(0, 5, TileLabel);
-    //set_bkg_tile_xy(centerX, centerY, 2);
     setCenterTile(10, 9, rollRNG());
     for (uint8_t i = 0; i < 10; i++)
     {
-        setPosition(i, 0);
-        isN_Good();
-        isE_Good();
+        setPosition(i, 0); //temp values
+        isN_Good(); //these are for debugging
+        isE_Good(); //i'll refactor later
         isW_Good();
         isS_Good();
 
