@@ -31,18 +31,18 @@ void setPosition(uint8_t x, uint8_t y){
 uint8_t rollRNG(){
     uint8_t randomNumberIndex = rand();
     randomNumberIndex = randomNumberIndex % 4;
-    assignTruthTable(placeholderRandArray[4], randomNumberIndex);
+    assignTruthTable(placeholderRandArray[], randomNumberIndex);
     return(randomNumberIndex);
 }
 
 void setCenterTile(uint8_t centerX, uint8_t centerY, uint8_t centerTile){
-    assignTruthTable(placeholderCenterTile, centerTile);
+    assignTruthTable(placeholderCenterTile[], centerTile);
     set_bkg_tile_xy(centerX, centerY, centerTile);
 }
 
-void assignTruthTable(uint8_t arrayToBeAssigned[4], uint8_t index){
+void assignTruthTable(uint8_t arrayToBeAssigned[], uint8_t index){
 
-    uint8_t arrayToBeAssigned[4] = {0, 0, 0, 0};
+    arrayToBeAssigned[4];
 
     switch (index)
     {
@@ -66,7 +66,7 @@ void assignTruthTable(uint8_t arrayToBeAssigned[4], uint8_t index){
             arrayToBeAssigned[i] = rightTruthTable[i];
         }
         break;
-    
+
     case 3:
         for (uint8_t i = 0; i < 3; i++)
         {
@@ -90,25 +90,7 @@ void assignTruthTable(uint8_t arrayToBeAssigned[4], uint8_t index){
     }
 }
 
-void placeTile(){
-    uint8_t RNGval = rollRNG();
-
-    if(isN_Good == true){
-        if(placeholderCenterTile[0] != placeholderRandArray[2]){
-            rollRNG();
-            placeTile();
-        }
-        if(placeholderCenterTile[1] != placeholderRandArray[3]){
-            rollRNG();
-            placeTile();
-        }
-        else{
-            set_bkg_data(tempX, tempY, RNGval);
-        }
-    }
-}
-
-void isN_Good(){
+bool isN_Good(){
     tempX = centerX;
     tempY = centerY - 1;
     if (tempX < 0 | tempY < 0)
@@ -118,11 +100,11 @@ void isN_Good(){
     
     if(get_bkg_tile_xy(tempX, tempY) == 0){
         return true;
-        placeTile(tempX, tempY);
+        //placeTile(tempX, tempY);
     }
 }
 
-void isE_Good(){
+bool isE_Good(){
     tempX = centerX - 1;
     tempY = centerY;
     if (tempX < 0 | tempY < 0)
@@ -132,11 +114,11 @@ void isE_Good(){
     
     if(get_bkg_tile_xy(tempX, tempY) == 0){
         return true;
-        placeTile(tempX, tempY);
+        //placeTile(tempX, tempY);
     } 
 }
 
-void isW_Good(){
+bool isW_Good(){
     tempX = centerX + 1;
     tempY = centerY;
     if (tempX < 0 | tempY < 0)
@@ -146,11 +128,11 @@ void isW_Good(){
     
     if(get_bkg_tile_xy(tempX, tempY) == 0){
         return true;
-        placeTile(tempX, tempY);
+        //placeTile(tempX, tempY);
     } 
 }
 
-void isS_Good(){
+bool isS_Good(){
     tempX = centerX;
     tempY = centerY + 1;
     if (tempX < 0 | tempY < 0)
@@ -160,9 +142,28 @@ void isS_Good(){
     
     if(get_bkg_tile_xy(tempX, tempY) == 0){
         return true;
-        placeTile(tempX, tempY);
+        //placeTile(tempX, tempY);
     } 
 }
+
+void placeTile(uint8_t tempX, uint8_t tempY){
+    uint8_t RNGval = rollRNG();
+
+    if(isN_Good){
+        if(placeholderCenterTile[0] != placeholderRandArray[2]){
+            rollRNG();
+            placeTile(tempX, tempY);
+        }
+        if(placeholderCenterTile[1] != placeholderRandArray[3]){
+            rollRNG();
+            placeTile(tempX, tempY);
+        }
+        else{
+            set_bkg_tile_xy(tempX, tempY, RNGval);
+        }
+    }
+}
+
 
 void main(){
     set_bkg_data(0, 5, TileLabel);
