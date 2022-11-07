@@ -4,8 +4,10 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "c:/gbdk/include/**"
-            ]
+                "C:/gbdk/include/**",
+                "C:/gbdk/include"
+            ],
+            "configurationProvider": "ms-vscode.makefile-tools"
         }
     ],
     "version": 4
